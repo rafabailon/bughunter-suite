@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A fictional shop for local end-to-end QA practice.">
+  <title>Northstar Supply | Local QA Demo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css') }}">
+  <script src="{{ url_for('static', filename='js/shop.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Northstar Supply home"><span>✳</span> NORTHSTAR <b>SUPPLY</b></a>
+    <nav aria-label="Main navigation"><a href="#catalog">Catalog</a><a href="#account">Account</a><a href="#cart">Bag <span id="cart-count">0</span></a></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">A FICTIONAL SHOP FOR QA PRACTICE</p>
+      <h1>Good things,<br><em>well considered.</em></h1>
+      <p>Thoughtful everyday objects, made up for testing. This local demo never processes real payments.</p>
+      <a class="primary-link" href="#catalog">Explore the collection <span>↓</span></a>
+      <div class="hero-orbit" aria-hidden="true"><i></i><b>LOCAL<br>DEMO</b></div>
+    </section>
+    <section id="catalog" class="catalog section-wrap">
+      <div class="section-heading"><div><p class="eyebrow">01 / THE COLLECTION</p><h2>Objects for the everyday</h2></div><label class="search"><span>⌕</span><input id="product-search" type="search" placeholder="Find something..." aria-label="Search products"></label></div>
+      <p id="catalog-message" class="inline-message" role="status"></p>
+      <div class="product-grid">
+        {% for product in products %}
+        <article class="product-card" data-product-name="{{ product.name|lower }}">
+          <div class="product-art art-{{ loop.index }}"><span>0{{ loop.index }}</span><div class="product-shape"></div></div>
+          <div class="product-details"><div><h3>{{ product.name }}</h3><p>In stock · Ships in 2–4 days</p></div><strong>${{ '%.2f'|format(product.price_cents / 100) }}</strong></div>
+          <button class="add-button" type="button" data-product-id="{{ product.id }}" data-product-name="{{ product.name }}">Add to bag <span>+</span></button>
+        </article>
+        {% endfor %}
+        <p id="no-results" class="no-results" hidden>No pieces match that search.</p>
+      </div>
+    </section>
+    <section class="account-strip section-wrap" id="account">
+      <div><p class="eyebrow">02 / YOUR ACCOUNT</p><h2>Save your bag for later.</h2><p>Create a demo account to try the sign-in and checkout flows.</p></div>
+      <form id="register-form" class="account-form">
+        <label>Email address<input name="email" type="email" placeholder="you@example.test" required maxlength="254"></label>
+        <label>Password<input name="password" type="password" placeholder="At least 10 characters" required minlength="10" maxlength="128"></label>
+        <button class="dark-button" type="submit">Create demo account</button>
+        <p id="account-message" role="status"></p>
+      </form>
+    </section>
+    <section class="cart-section section-wrap" id="cart">
+      <div class="section-heading"><div><p class="eyebrow">03 / CHECKOUT</p><h2>Your bag</h2></div><span class="demo-stamp">SIMULATED PAYMENT · NO CHARGE</span></div>
+      <div id="cart-items" class="cart-items"><p>Your bag is waiting for something good.</p></div>
+      <form id="checkout-form" class="checkout-form">
+        <label>Full name<input name="full_name" required maxlength="120" placeholder="Alex Morgan"></label>
+        <label>Email address<input name="email" type="email" required maxlength="254" placeholder="you@example.test"></label>
+        <button class="primary-button" type="submit">Place demo order <span>→</span></button>
+      </form>
+      <p id="checkout-message" class="inline-message" role="status"></p>
+    </section>
+  </main>
+  <footer><a class="brand" href="/"><span>✳</span> NORTHSTAR <b>SUPPLY</b></a><p>Fictional products. Simulated orders. Zero real-world transactions.</p></footer>
+</body>
+</html>
