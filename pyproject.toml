@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bughunter-suite"
+version = "1.0.0"
+description = "A local-only API and browser QA suite for a fictional shop."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "Flask>=3.0,<4.0",
+    "PyJWT>=2.8,<3.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0,<9.0",
+    "requests>=2.31,<3.0",
+    "pytest-html>=4.1,<5.0",
+    "pytest-cov>=5.0,<7.0",
+    "playwright>=1.45,<2.0",
+]
+
+[project.scripts]
+bughunter-demo = "app:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["app", "shop"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "api: local HTTP API integration tests",
+    "e2e: browser end-to-end tests requiring Playwright Chromium",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
